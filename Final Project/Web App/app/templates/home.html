@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis Web App</title>
+    <meta name="viewport"  content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<div>
+    <style >
+        .column {
+          float: left;
+          width: 40%;
+          margin-left: 90px;
+        }
+
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+    </style>
+    <div id="h1">
+        <h1 style="padding-left:80px;">What is the binary polarity of your review: positive, or negative?</h1>
+    </div>
+    <!---<p>Enter your review below and click submit to find out...</p>--->
+    <div class="row">
+
+        <div class="column">
+            <form method="POST" action="{{ url_for('predict_azure')}}">
+                <div class="form-group">
+                    <label for="reviews">Review:</label>
+                    <textarea class="form-control"  rows="5" id="reviews" name="Azure Review">Please write your Azure review here.</textarea>
+                </div>
+                <button type="submit" class="btn btn-default" >Azure Submit</button>
+                <h5> Azure prediction for '{{ azure_text }}' is:  </h5>
+                <h3 class="bg-success" id="result"> '{{ azure_prediction }}' </h3>
+            </form>
+        </div>
+
+        <div class="column">
+            <form method="POST" action="{{ url_for('predict_aws')}}">
+                <div class="form-group">
+                    <label for="review2">Review:</label>
+                    <textarea class="form-control"  rows="5" id="review2" name="AWS Review">Please write your AWS review here.</textarea>
+                </div>
+                <button type="submit" class="btn btn-default" >AWS Submit</button>
+                <h5> AWS prediction for '{{ aws_text }}' is:  </h5>
+                <h3 class="bg-success" id="result2"> '{{ aws_prediction }}' </h3>
+            </form>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="x_title">
+        </div>
+    </div>
+
+    <div id="h2">
+        <h2 style="padding-left:80px; margin-top:50px;">LSTM Performance Metrics</h2>
+    </div>
+<div style="margin-right:170px" >
+    <style>
+table {
+  margin-right: 100px;
+  margin-left: 80px;
+}
+</style>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th>Platform</th>
+                          <th>Train Accuracy</th>
+                          <th>Test Accuracy</th>
+                          <th>Train Loss</th>
+                            <th>Test Loss</th>
+                          <th>Training Time</th>
+                          <th>Deploy Time</th>
+                            <th>Memory (Training)</th>
+                            <th>Memory (Deploy)</th>
+                            <th>Time Taken (Test Review)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">Amazon Web Services</th>
+                          <td>'{{aws_train_accu}}'</td>
+                          <td>'{{aws_test_accu}}'</td>
+                            <td>'{{aws_train_loss}}'</td>
+                            <td>'{{aws_test_loss}}'</td>
+                            <td>'{{aws_train_time}}'</td>
+                            <td>'{{aws_deploy_time}}'</td>
+                            <td>'{{aws_training_memory}}'</td>
+                            <td>'{{aws_deploy_memory}}'</td>
+                            <td>'{{aws_time_taken}}'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Azure</th>
+                          <td>'{{azure_train_accu}}'</td>
+                          <td>'{{azure_test_accu}}'</td>
+                            <td>'{{azure_train_loss}}'</td>
+                            <td>'{{azure_test_loss}}'</td>
+                            <td>'{{azure_train_time}}'</td>
+                            <td>'{{azure_deploy_time}}'</td>
+                            <td>'{{azure_training_memory}}'</td>
+                            <td>'{{azure_deploy_memory}}'</td>
+                            <td>'{{azure_time_taken}}'</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+</div>
+</html>
